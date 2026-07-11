@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>🌊 Achadinhos Oceano | As Melhores Ofertas da Shopee</title>
+
+    <meta name="description"
+        content="Encontre os melhores achadinhos da Shopee em um só lugar. Produtos atualizados automaticamente.">
+
+    <meta name="keywords"
+        content="Shopee, ofertas, promoções, descontos, afiliado Shopee, achadinhos">
+
+    <meta name="author" content="Achadinhos Oceano">
+
+    <meta name="robots" content="index, follow">
+
+    <meta name="theme-color" content="#0066cc">
+
+    <link rel="canonical" href="https://achadinhosoceano.com.br/">
+
+    <!-- Open Graph -->
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="🌊 Achadinhos Oceano">
+    <meta property="og:description"
+        content="Um oceano de ofertas esperando por você.">
+    <meta property="og:image"
+        content="https://achadinhosoceano.com.br/static/images/og-image.jpg">
+
+    <!-- Favicons -->
+
+    <link rel="manifest" href="/static/manifest.webmanifest">
+
+    <link rel="icon"
+        href="/static/images/favicon.ico">
+
+    <link rel="apple-touch-icon"
+        href="/static/images/apple-touch-icon.png">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet"
+        href="/static/css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <a href="/" class="logo">
+
+        <h1>🌊 Achadinhos Oceano</h1>
+
+        <span>
+            Um oceano de ofertas esperando por você
+        </span>
+
+    </a>
+
+    <form class="search-box" method="GET" action="/">
+
+        <input
+            type="text"
+            name="busca"
+            placeholder="🔍 Pesquise qualquer produto..."
+            value="{{ busca }}">
+
+        <button type="submit">
+            Pesquisar
+        </button>
+
+        {% if busca %}
+
+        <a href="/" class="limpar">
+            Limpar
+        </a>
+
+        {% endif %}
+
+    </form>
+
+</header>
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h2>
+            Descubra milhares de ofertas da Shopee
+        </h2>
+
+        <p>
+            Produtos atualizados automaticamente.
+        </p>
+
+        <a href="#produtos"
+            class="hero-btn">
+
+            Ver Ofertas
+
+        </a>
+
+    </div>
+
+</section>
+
+<main class="container">
+
+{% if busca %}
+
+<h2>
+
+Resultado da busca por
+
+<strong>
+
+"{{ busca }}"
+
+</strong>
+
+</h2>
+
+{% else %}
+
+<h2>
+
+Produtos em destaque
+
+</h2>
+
+{% endif %}
+
+<section
+class="products"
+id="produtos">
+{% for produto in produtos %}
+
+<article class="card">
+
+    <div class="badge">
+        🔥 Oferta
+    </div>
+
+    <img
+        src="{{ produto.image_url }}"
+        alt="{{ produto.product_name }}"
+        loading="lazy"
+    >
+
+    <div class="card-content">
+
+        <h3 class="nome">
+            {{ produto.product_name }}
+        </h3>
+
+        <div class="details">
+
+            <span>
+                ⭐ {{ produto.rating }}
+            </span>
+
+            <span>
+                📦 {{ produto.sales }}
+            </span>
+
+        </div>
+
+        <div class="preco">
+            R$ {{ produto.price }}
+        </div>
+
+        <a
+            href="{{ produto.offer_link }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn"
+        >
+            🛒 Comprar Agora
+        </a>
+
+    </div>
+
+</article>
+
+{% endfor %}
+
+</section>
+
+{% if total_pages > 1 %}
+
+<div class="pagination">
+
+    {% if page > 1 %}
+
+    <a href="/?busca={{ busca }}&page={{ page - 1 }}">
+        ◀ Anterior
+    </a>
+
+    {% endif %}
+
+    {% if pages[0] > 1 %}
+
+        <a href="/?busca={{ busca }}&page=1">
+            1
+        </a>
+
+        {% if pages[0] > 2 %}
+            <span>...</span>
+        {% endif %}
+
+    {% endif %}
+
+    {% for p in pages %}
+
+        {% if p == page %}
+
+            <span class="active">
+                {{ p }}
+            </span>
+
+        {% else %}
+
+            <a href="/?busca={{ busca }}&page={{ p }}">
+                {{ p }}
+            </a>
+
+        {% endif %}
+
+    {% endfor %}
+
+    {% if pages[-1] < total_pages %}
+
+        {% if pages[-1] < total_pages - 1 %}
+            <span>...</span>
+        {% endif %}
+
+        <a href="/?busca={{ busca }}&page={{ total_pages }}">
+            {{ total_pages }}
+        </a>
+
+    {% endif %}
+
+    {% if page < total_pages %}
+
+    <a href="/?busca={{ busca }}&page={{ page + 1 }}">
+        Próxima ▶
+    </a>
+
+    {% endif %}
+
+</div>
+
+{% endif %}
+
+</main>
+
+<script src="/static/js/search.js"></script>
+
+</body>
+
+</html>
