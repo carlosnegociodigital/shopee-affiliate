@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+from app.core.categories import CATEGORIES
 from app.database.database import Base, SessionLocal, engine
 from app.database.models import Product
 from app.services.product_service import ProductService
@@ -17,10 +18,15 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
 
 
+# ==========================================================
+# Página inicial
+# ==========================================================
+
 @app.get("/", response_class=HTMLResponse)
 def home(
     request: Request,
     busca: str = Query(default=""),
+    categoria: str = Query(default=""),
     page: int = Query(default=1),
 ):
 
@@ -28,29 +34,40 @@ def home(
     service = ProductService()
 
     per_page = 24
+
+    page = max(page, 1)
+
     offset = (page - 1) * per_page
 
     try:
 
-        # -----------------------------------
-        # Pesquisa híbrida
-        # -----------------------------------
+        query = db.query(Product)
+
+        # --------------------------------------------------
+        # Pesquisa
+        # --------------------------------------------------
 
         if busca.strip():
 
             service.search_products(busca.strip())
 
-            query = db.query(Product).filter(
+            query = query.filter(
                 Product.product_name.ilike(f"%{busca.strip()}%")
             )
 
-        else:
+        # --------------------------------------------------
+        # Categoria Inteligente
+        # --------------------------------------------------
 
-            query = db.query(Product)
+        if categoria:
 
-        # -----------------------------------
-        # Paginação
-        # -----------------------------------
+            query = query.filter(
+                Product.site_category == categoria
+            )
+
+        # --------------------------------------------------
+        # Total
+        # --------------------------------------------------
 
         total = query.count()
 
@@ -84,6 +101,31 @@ def home(
 
     pages = list(range(start_page, end_page + 1))
 
+    icones = {
+        "Celulares": "📱",
+        "Informática": "💻",
+        "Gamer": "🎮",
+        "Eletrônicos": "📺",
+        "Casa": "🏠",
+        "Cozinha": "🍳",
+        "Beleza": "💄",
+        "Moda": "👗",
+        "Pets": "🐶",
+        "Infantil": "👶",
+        "Esportes": "🏋️",
+    }
+
+    categorias = [("", "🏠 Todos")]
+
+    for nome in CATEGORIES.keys():
+
+        categorias.append(
+            (
+                nome,
+                f"{icones.get(nome, '📦')} {nome}"
+            )
+        )
+
     return templates.TemplateResponse(
         request=request,
         name="index.html",
@@ -91,6 +133,8 @@ def home(
             "request": request,
             "produtos": produtos,
             "busca": busca,
+            "categoria": categoria,
+            "categorias": categorias,
             "page": page,
             "pages": pages,
             "total_pages": total_pages,
@@ -98,14 +142,16 @@ def home(
     )
 
 
+# ==========================================================
+# Atualização manual
+# ==========================================================
+
 @app.get("/atualizar")
 def atualizar():
 
-    service = ProductService()
-
-    service.update_products()
+    ProductService().update_products()
 
     return {
         "status": "ok",
-        "mensagem": "Banco atualizado com sucesso.",
+        "mensagem": "Banco atualizado com sucesso."
     }

@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+from app.core.classifier import classify_product
 from app.database.database import SessionLocal
 from app.database.models import Product
 from app.services.shopee_client import ShopeeClient
@@ -37,7 +38,9 @@ class ProductService:
                     p.updated_at for p in produtos if p.updated_at
                 )
 
-                limite = datetime.utcnow() - timedelta(hours=self.CACHE_HOURS)
+                limite = datetime.utcnow() - timedelta(
+                    hours=self.CACHE_HOURS
+                )
 
                 if mais_recente >= limite:
 
@@ -80,18 +83,25 @@ class ProductService:
             "xiaomi",
             "samsung",
             "motorola",
+
             "notebook",
             "monitor",
             "mouse",
             "teclado",
+
             "tv",
+
             "air fryer",
             "cafeteira",
             "liquidificador",
+
             "perfume",
             "maquiagem",
+
             "pet",
+
             "brinquedo",
+
             "cadeira gamer",
 
         ]
@@ -130,7 +140,6 @@ class ProductService:
             )
 
             if not products:
-
                 break
 
             self.save_products(products, keyword)
@@ -154,12 +163,25 @@ class ProductService:
 
             for item in products:
 
+                categoria_shopee = item.get("categoryName", "")
+
+                categoria_site = classify_product(
+                    item["productName"],
+                    categoria_shopee
+                )
+
                 produto = db.get(Product, item["itemId"])
 
                 if produto:
 
                     produto.product_name = item["productName"]
-                    produto.category = item.get("categoryName")
+
+                    # Categoria original da Shopee
+                    produto.category = categoria_shopee
+
+                    # Categoria inteligente do site
+                    produto.site_category = categoria_site
+
                     produto.keyword = keyword
                     produto.image_url = item["imageUrl"]
                     produto.price = str(item["priceMin"])
@@ -175,15 +197,29 @@ class ProductService:
                     produto = Product(
 
                         item_id=item["itemId"],
+
                         product_name=item["productName"],
-                        category=item.get("categoryName"),
+
+                        # Categoria original
+                        category=categoria_shopee,
+
+                        # Categoria inteligente
+                        site_category=categoria_site,
+
                         keyword=keyword,
+
                         image_url=item["imageUrl"],
+
                         price=str(item["priceMin"]),
+
                         rating=str(item["ratingStar"]),
+
                         sales=item["sales"],
+
                         offer_link=item["offerLink"],
+
                         created_at=datetime.utcnow(),
+
                         updated_at=datetime.utcnow(),
 
                     )

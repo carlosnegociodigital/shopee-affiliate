@@ -83,7 +83,30 @@
         {% endif %}
 
     </form>
+<div class="category-menu">
 
+    <button id="toggleCategorias" class="category-button">
+
+        ☰ Categorias ▼
+
+    </button>
+
+    <nav id="listaCategorias" class="categories">
+
+{% for valor, nome in categorias %}
+
+    <a
+        href="/?categoria={{ valor }}"
+        class="{% if categoria == valor %}active{% endif %}"
+    >
+        {{ nome }}
+    </a>
+
+{% endfor %}
+
+</nav>
+
+</div>
 </header>
 
 <section class="hero">
@@ -197,7 +220,7 @@ id="produtos">
 
     {% if page > 1 %}
 
-    <a href="/?busca={{ busca }}&page={{ page - 1 }}">
+    <a href="/?busca={{ busca }}&categoria={{ categoria }}&page={{ page - 1 }}">
         ◀ Anterior
     </a>
 
@@ -205,7 +228,7 @@ id="produtos">
 
     {% if pages[0] > 1 %}
 
-        <a href="/?busca={{ busca }}&page=1">
+        <a href="/?busca={{ busca }}&categoria={{ categoria }}&page=1">
             1
         </a>
 
@@ -225,7 +248,7 @@ id="produtos">
 
         {% else %}
 
-            <a href="/?busca={{ busca }}&page={{ p }}">
+            <a href="/?busca={{ busca }}&categoria={{ categoria }}&page={{ p }}">
                 {{ p }}
             </a>
 
@@ -239,7 +262,7 @@ id="produtos">
             <span>...</span>
         {% endif %}
 
-        <a href="/?busca={{ busca }}&page={{ total_pages }}">
+        <a href="/?busca={{ busca }}&categoria={{ categoria }}&page={{ total_pages }}">
             {{ total_pages }}
         </a>
 
@@ -247,7 +270,7 @@ id="produtos">
 
     {% if page < total_pages %}
 
-    <a href="/?busca={{ busca }}&page={{ page + 1 }}">
+    <a href="/?busca={{ busca }}&categoria={{ categoria }}&page={{ page + 1 }}">
         Próxima ▶
     </a>
 
@@ -260,7 +283,24 @@ id="produtos">
 </main>
 
 <script src="/static/js/search.js"></script>
+<script>
 
+const botao=document.getElementById("toggleCategorias");
+const menu=document.getElementById("listaCategorias");
+
+botao.addEventListener("click",()=>{
+
+    menu.classList.toggle("show");
+
+    if(menu.classList.contains("show")){
+        botao.innerHTML="☰ Categorias ▲";
+    }else{
+        botao.innerHTML="☰ Categorias ▼";
+    }
+
+});
+
+</script>
 </body>
 
 </html>
