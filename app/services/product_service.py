@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+﻿from datetime import datetime, timedelta
 
 from app.core.classifier import classify_product
 from app.database.database import SessionLocal
@@ -13,10 +13,9 @@ class ProductService:
     def __init__(self):
         self.client = ShopeeClient()
 
-    # -------------------------------------------------
-    # Pesquisa híbrida
-    # Banco -> API -> Banco
-    # -------------------------------------------------
+    # =====================================================
+    # PESQUISA NORMAL
+    # =====================================================
 
     def search_products(self, keyword):
 
@@ -28,30 +27,48 @@ class ProductService:
 
             produtos = (
                 db.query(Product)
-                .filter(Product.product_name.ilike(f"%{keyword}%"))
+                .filter(
+                    Product.product_name.ilike(
+                        f"%{keyword}%"
+                    )
+                )
                 .all()
             )
 
             if produtos:
 
-                mais_recente = max(
-                    p.updated_at for p in produtos if p.updated_at
+                produtos_com_data = [
+                    p for p in produtos
+                    if p.updated_at
+                ]
+
+                if produtos_com_data:
+
+                    mais_recente = max(
+                        p.updated_at
+                        for p in produtos_com_data
+                    )
+
+                    limite = (
+                        datetime.utcnow()
+                        - timedelta(
+                            hours=self.CACHE_HOURS
+                        )
+                    )
+
+                    if mais_recente >= limite:
+
+                        print(
+                            "âœ… Dados recentes encontrados no banco."
+                        )
+
+                        return produtos
+
+                print(
+                    "â™» Cache expirado. Atualizando Shopee..."
                 )
-
-                limite = datetime.utcnow() - timedelta(
-                    hours=self.CACHE_HOURS
-                )
-
-                if mais_recente >= limite:
-
-                    print("✅ Dados recentes encontrados no banco.")
-
-                    return produtos
-
-                print("♻ Cache expirado. Atualizando Shopee...")
 
         finally:
-
             db.close()
 
         self.fetch_from_api(keyword)
@@ -62,59 +79,55 @@ class ProductService:
 
             return (
                 db.query(Product)
-                .filter(Product.product_name.ilike(f"%{keyword}%"))
+                .filter(
+                    Product.product_name.ilike(
+                        f"%{keyword}%"
+                    )
+                )
                 .all()
             )
 
         finally:
-
             db.close()
 
-    # -------------------------------------------------
-    # Atualização manual
-    # -------------------------------------------------
+    # =====================================================
+    # ATUALIZAÃ‡ÃƒO GERAL
+    # =====================================================
 
     def update_products(self):
 
         keywords = [
-
             "celular",
             "iphone",
             "xiaomi",
             "samsung",
             "motorola",
-
             "notebook",
             "monitor",
             "mouse",
             "teclado",
-
             "tv",
-
             "air fryer",
             "cafeteira",
             "liquidificador",
-
             "perfume",
             "maquiagem",
-
             "pet",
-
             "brinquedo",
-
             "cadeira gamer",
-
         ]
 
         for keyword in keywords:
 
-            print(f"\n🔎 Atualizando {keyword}")
+            print(
+                f"\nðŸ”Ž Atualizando {keyword}"
+            )
 
             self.fetch_from_api(keyword)
 
-    # -------------------------------------------------
-    # Consulta Shopee
-    # -------------------------------------------------
+    # =====================================================
+    # BUSCA PRODUTOS NA API
+    # =====================================================
 
     def fetch_from_api(self, keyword):
 
@@ -123,36 +136,41 @@ class ProductService:
         for page in range(1, 6):
 
             response = self.client.get_products(
-
                 keyword=keyword,
                 page=page,
                 limit=30
-
             )
 
             products = (
-
                 response
                 .get("data", {})
                 .get("productOfferV2", {})
                 .get("nodes", [])
-
             )
 
             if not products:
                 break
 
-            self.save_products(products, keyword)
+            self.save_products(
+                products,
+                keyword
+            )
 
             total += len(products)
 
-        print(f"📦 {total} produtos processados.")
+        print(
+            f"ðŸ“¦ {total} produtos processados."
+        )
 
-    # -------------------------------------------------
-    # Salvar produtos
-    # -------------------------------------------------
+    # =====================================================
+    # SALVA PRODUTOS
+    # =====================================================
 
-    def save_products(self, products, keyword):
+    def save_products(
+        self,
+        products,
+        keyword
+    ):
 
         db = SessionLocal()
 
@@ -163,65 +181,125 @@ class ProductService:
 
             for item in products:
 
-                categoria_shopee = item.get("categoryName", "")
+                categoria_shopee = item.get(
+                    "categoryName",
+                    ""
+                )
 
                 categoria_site = classify_product(
-                    item["productName"],
+                    item.get(
+                        "productName",
+                        ""
+                    ),
                     categoria_shopee
                 )
 
-                produto = db.get(Product, item["itemId"])
+                produto = db.get(
+                    Product,
+                    item["itemId"]
+                )
 
                 if produto:
 
-                    produto.product_name = item["productName"]
+                    produto.product_name = item.get(
+                        "productName"
+                    )
 
-                    # Categoria original da Shopee
-                    produto.category = categoria_shopee
+                    produto.category = item.get(
+                        "categoryName"
+                    )
 
-                    # Categoria inteligente do site
-                    produto.site_category = categoria_site
+                    produto.site_category = (
+                        categoria_site
+                    )
 
                     produto.keyword = keyword
-                    produto.image_url = item["imageUrl"]
-                    produto.price = str(item["priceMin"])
-                    produto.rating = str(item["ratingStar"])
-                    produto.sales = item["sales"]
-                    produto.offer_link = item["offerLink"]
-                    produto.updated_at = datetime.utcnow()
+
+                    produto.image_url = item.get(
+                        "imageUrl"
+                    )
+
+                    produto.price = str(
+                        item.get(
+                            "priceMin",
+                            ""
+                        )
+                    )
+
+                    produto.rating = str(
+                        item.get(
+                            "ratingStar",
+                            ""
+                        )
+                    )
+
+                    produto.sales = item.get(
+                        "sales",
+                        0
+                    )
+
+                    produto.offer_link = item.get(
+                        "offerLink"
+                    )
+
+                    produto.updated_at = (
+                        datetime.utcnow()
+                    )
 
                     atualizados += 1
 
                 else:
 
                     produto = Product(
-
                         item_id=item["itemId"],
 
-                        product_name=item["productName"],
+                        product_name=item.get(
+                            "productName",
+                            ""
+                        ),
 
-                        # Categoria original
-                        category=categoria_shopee,
+                        category=item.get(
+                            "categoryName"
+                        ),
 
-                        # Categoria inteligente
                         site_category=categoria_site,
 
                         keyword=keyword,
 
-                        image_url=item["imageUrl"],
+                        image_url=item.get(
+                            "imageUrl"
+                        ),
 
-                        price=str(item["priceMin"]),
+                        price=str(
+                            item.get(
+                                "priceMin",
+                                ""
+                            )
+                        ),
 
-                        rating=str(item["ratingStar"]),
+                        rating=str(
+                            item.get(
+                                "ratingStar",
+                                ""
+                            )
+                        ),
 
-                        sales=item["sales"],
+                        sales=item.get(
+                            "sales",
+                            0
+                        ),
 
-                        offer_link=item["offerLink"],
+                        offer_link=item.get(
+                            "offerLink"
+                        ),
 
-                        created_at=datetime.utcnow(),
+                        created_at=(
+                            datetime.utcnow()
+                        ),
 
-                        updated_at=datetime.utcnow(),
-
+                        updated_at=(
+                            datetime.utcnow()
+                        ),
                     )
 
                     db.add(produto)
@@ -231,9 +309,57 @@ class ProductService:
             db.commit()
 
             print(
-                f"💾 {novos} novos | {atualizados} atualizados."
+                f"ðŸ’¾ {novos} novos | "
+                f"{atualizados} atualizados."
             )
 
         finally:
-
             db.close()
+
+    # =====================================================
+    # BUSCA OFERTAS REAIS DA SHOPEE
+    # =====================================================
+
+    def get_shopee_offers(
+        self,
+        keyword="",
+        page=1,
+        limit=30
+    ):
+
+        print(
+            f"ðŸ”¥ Buscando ofertas Shopee"
+            f" | palavra='{keyword}'"
+            f" | pÃ¡gina={page}"
+        )
+
+        response = self.client.get_offers(
+            keyword=keyword,
+            page=page,
+            limit=limit
+        )
+
+        ofertas = (
+            response
+            .get("data", {})
+            .get("shopeeOfferV2", {})
+            .get("nodes", [])
+        )
+
+        erros = response.get(
+            "errors"
+        )
+
+        if erros:
+
+            print(
+                "âŒ Erro retornado pela Shopee:"
+            )
+
+            print(erros)
+
+        print(
+            f"ðŸ”¥ {len(ofertas)} ofertas encontradas."
+        )
+
+        return ofertas

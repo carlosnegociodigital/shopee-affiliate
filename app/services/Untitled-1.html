@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mix de ofertas shopee</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="https://github.com/carlosnegociodigital/mix-de-ofertas/blob/main/mix.jpg?raw=true">
+    
+    <!-- Meta Tags Básicas -->
+    <meta name="description" content="As melhores ofertas selecionadas para você. Clique e aproveite!">
+
+    <!-- Open Graph (Facebook, WhatsApp, LinkedIn) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://carlosnegociodigital.github.io/mixdeofertas/">
+    <meta property="og:title" content="🛍️ Mix de Ofertas Shopee">
+    <meta property="og:description" content="Confira os melhores produtos com descontos exclusivos!">
+    <meta property="og:image" content="https://github.com/carlosnegociodigital/mix-de-ofertas/blob/main/mix.jpg?raw=true">
+    <meta property="og:image:secure_url" content="https://github.com/carlosnegociodigital/mix-de-ofertas/blob/main/mix.jpg?raw=true">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="500">
+    <meta property="og:image:height" content="500">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="🛍️ Mix de Ofertas Shopee">
+    <meta name="twitter:description" content="Confira os melhores produtos com descontos exclusivos!">
+    <meta name="twitter:image" content="https://github.com/carlosnegociodigital/mix-de-ofertas/blob/main/mix.jpg?raw=true">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f4f6f9; color: #333; padding-bottom: 40px; }
+        
+        /* Cabeçalho e Redes Sociais */
+        header { 
+            background: linear-gradient(135deg, #ff4500, #ff6a00); 
+            color: white; 
+            text-align: center; 
+            padding: 50px 20px 40px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            position: relative; 
+        }
+
+        /* Avatar do Cabeçalho */
+        .header-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 12px;
+            transition: transform 0.3s ease;
+        }
+        .header-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        header h1 { font-size: 2.2rem; margin-bottom: 8px; }
+        header p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 20px; }
+        
+        /* Botão Lojas Oficiais */
+        .btn-lojas-container { margin-top: 15px; }
+        .btn-lojas-oficiais {
+            display: inline-block;
+            padding: 10px 28px;
+            background-color: #FFFFFF;
+            color: #E54B2D;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .btn-lojas-oficiais:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Container das Redes Sociais */
+        .social-media { position: absolute; top: 15px; right: 20px; display: flex; gap: 12px; }
+        .social-icon { display: flex; align-items: center; justify-content: center; width: 35px; height: 35px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); transition: all 0.3s ease; text-decoration: none; }
+        .social-icon:hover { background: rgba(255, 255, 255, 1); transform: scale(1.1); }
+        .social-icon svg { width: 18px; height: 18px; fill: white; transition: fill 0.3s ease; }
+        .social-icon.instagram:hover svg { fill: #e1306c; }
+
+        /* Grid de produtos */
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+        .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; flex-direction: column; transition: transform 0.3s ease; border: 1px solid #eef2f5; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        .image-container { position: relative; width: 100%; padding-top: 100%; background: #fafafa; }
+        .image-container img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+        .content { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .store { font-size: 0.75rem; text-transform: uppercase; color: #ff5722; font-weight: bold; margin-bottom: 5px; letter-spacing: 0.5px; }
+        .title { font-size: 0.95rem; font-weight: 600; line-height: 1.4; color: #2c3e50; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.8em; }
+        .price-row { margin-bottom: 15px; display: flex; align-items: baseline; gap: 5px; }
+        .price-label { font-size: 0.8rem; color: #7f8c8d; }
+        .price { font-size: 1.3rem; font-weight: bold; color: #27ae60; }
+        .btn-buy { display: block; text-align: center; background: #ff5722; color: white; text-decoration: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 0.9rem; transition: background 0.2s; margin-bottom: 8px; }
+        .btn-buy:hover { background: #e64a19; }
+        .btn-share { display: block; text-align: center; background: #25d366; color: white; text-decoration: none; padding: 8px; border-radius: 8px; font-weight: 600; font-size: 0.8rem; transition: background 0.2s; }
+        .btn-share:hover { background: #20ba5a; }
+
+        /* Ajustes para Telas Menores e Mobile */
+        @media (max-width: 600px) {
+            header { padding-top: 70px; padding-bottom: 30px; }
+            header h1 { font-size: 1.7rem; }
+            header p { font-size: 0.95rem; }
+            .header-avatar { width: 85px; height: 85px; }
+            .social-media { right: 50%; transform: translateX(50%); top: 15px; }
+            
+            .container { padding: 0 10px; margin: 15px auto; }
+            .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            
+            .content { padding: 10px; }
+            .title { font-size: 0.82rem; height: 2.6em; margin-bottom: 6px; }
+            .store { font-size: 0.65rem; }
+            .price { font-size: 1.1rem; }
+            .price-row { margin-bottom: 8px; }
+            .btn-buy { padding: 8px 4px; font-size: 0.8rem; }
+            .btn-share { padding: 6px 4px; font-size: 0.75rem; }
+        }
+
+        /* Banner Shopee */
+        .container-shopee-banner { width:100%; max-width:1200px; margin:25px auto; padding:0 20px; }
+        .shopee-banner { position:relative; overflow:hidden; border-radius:15px; box-shadow:0 6px 18px rgba(0,0,0,.12); background:#fff; }
+        .shopee-banner-trilho { display:flex; transition:transform .5s ease; }
+        .shopee-banner-slide { min-width:100%; }
+        .shopee-banner-slide img { width:100%; display:block; }
+        .shopee-seta { position:absolute; top:50%; transform:translateY(-50%); width:42px; height:42px; border:none; border-radius:50%; background:rgba(0,0,0,.45); color:#fff; cursor:pointer; font-size:24px; z-index:5; transition:.3s; }
+        .shopee-seta:hover { background:#ff5722; }
+        .shopee-seta-esq { left:10px; }
+        .shopee-seta-dir { right:10px; }
+
+        @media(max-width:768px){
+            .container-shopee-banner { padding: 0 10px; margin: 15px auto; }
+            .shopee-seta { width:34px; height:34px; font-size:18px; }
+        }
+
+        footer { background:#222; color:white; text-align:center; padding:20px; margin-top:40px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="social-media">
+            <a href="https://www.instagram.com/loscar_ch/" target="_blank" class="social-icon instagram" title="Instagram">
+                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+            <a href="#" target="_blank" class="social-icon facebook" title="Facebook">
+                <svg viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+            </a>
+            <a href="#" target="_blank" class="social-icon youtube" title="YouTube">
+                <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+        </div>
+
+        <!-- Avatar Adicionado Aqui 👇 -->
+        <img src="https://github.com/carlosnegociodigital/mix-de-ofertas/blob/main/mix.jpg?raw=true" alt="Mix de Ofertas Logo" class="header-avatar">
+
+        <h1>🛍️ Mix de Ofertas Shopee</h1>
+        <p>As melhores ofertas selecionadas para você. Clique e aproveite!</p>
+        
+        <!-- Botão Lojas Oficiais -->
+        <div class="btn-lojas-container">
+            <a href="https://s.shopee.com.br/qi55lrNpK" class="btn-lojas-oficiais" target="_blank" rel="noopener noreferrer">
+                Promoções Relâmpago Aqui
+            </a>
+        </div>
+    </header>
+
+    <div class="container-shopee-banner">
+        <div class="shopee-banner">
+            <button class="shopee-seta shopee-seta-esq" onclick="mudarSlide(-1)">&#10094;</button>
+            <button class="shopee-seta shopee-seta-dir" onclick="mudarSlide(1)">&#10095;</button>
+
+            <div class="shopee-banner-trilho" id="trilho">
+                <a href="https://s.shopee.com.br/110oqFt4BM" class="shopee-banner-slide" target="_blank">
+                    <img src="https://down-br.img.susercontent.com/file/br-11134258-820m0-mpjygsfar7cz18@resize_w1440_nl.webp">
+                </a>
+                <a href="https://s.shopee.com.br/8fQCoYiXjh" class="shopee-banner-slide" target="_blank">
+                    <img src="https://down-br.img.susercontent.com/file/br-11134258-820m4-mpml0knp8v0je0@resize_w797_nl.webp">
+                </a>
+                <a href="https://s.shopee.com.br/30lq4Nd9qQ" class="shopee-banner-slide" target="_blank">
+                    <img src="https://down-br.img.susercontent.com/file/br-11134258-820lk-mpi8ri5u5ptvb3@resize_w797_nl.webp">
+                </a>
+                <a href="https://s.shopee.com.br/Ll4uHgJMs" class="shopee-banner-slide" target="_blank">
+                    <img src="https://down-br.img.susercontent.com/file/br-11134258-820md-mpblod44v2td12@resize_w1440_nl.webp">
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="grid" id="products-grid"></div>
+    </div>
+
+    <script>
+        const products = [
+            { id: "22893860899", name: "Varal De Chão Torre 3 Andares Retrátil Compacto, Dobrável e com Rodinhas", price: "65,79", store: "Distribuidora Express 25", link: "https://s.shopee.com.br/9030zeCW29", image: "https://down-bs-br.img.susercontent.com/br-11134207-7r98o-m7z8j51xkgz536.jpg" },
+            { id: "20699552381", name: "Furadeira/Parafusadeira 26V/48V Dual Baterias, Conjunto com Estuche e Ferramentas Inclusas", price: "59,99", store: "MAIS LEGAL SHOP", link: "https://s.shopee.com.br/8pjanLD9N8", image: "https://down-bs-br.img.susercontent.com/sg-11134201-7rfhg-m9dxj327vfsw58.jpg" },
+            { id: "58257935434", name: "Copo Termico 473ml Personalizado Brasil Com Abridor integrado e Tampa - Tema Copa do Mundo", price: "44,90", store: "D’ bate pronto", link: "https://s.shopee.com.br/8fQAb2Dmi7", image: "https://down-bs-br.img.susercontent.com/br-11134207-820lu-mmiv5l9yvbwne0.jpg" },
+            { id: "58252957049", name: "Sapateira com Portas Armário Multiuso Organizador Vertical para Hall Entrada Quarto Sala Moderna", price: "148,90", store: "CalmWalk", link: "https://s.shopee.com.br/9pc7zB9LLM", image: "https://down-bs-br.img.susercontent.com/br-11134207-81ztc-mkb8tbzwu8sg24.jpg" },
+            { id: "27787724235", name: "Torneira Aquecedora De Água Quente Elétrica Instantânea 3000W Com Display Digital Aquecedor Para De Banheiro", price: "110,98", store: "mdnkr458r5.br", link: "https://s.shopee.com.br/9fIhms9ygL", image: "https://down-bs-br.img.susercontent.com/sg-11134201-7rau8-mb52sdbtjje12d.jpg" },
+            { id: "29077428559", name: "Chinelos de algodão à prova d'água senhoras outono inverno 2025 novo estilo salto interior doméstico antiderrapante", price: "59,90", store: "onethree.br", link: "https://s.shopee.com.br/9UzHaZAc1K", image: "https://down-bs-br.img.susercontent.com/sg-11134201-7rd70-m6nmat7hizyy49.jpg" },
+            { id: "9842241350", name: "Caixa de Som 2.1 Subwoofer Amplificador", price: "194,98", store: "Dalonso Store", link: "https://s.shopee.com.br/9KfrOGBFMJ", image: "https://down-bs-br.img.susercontent.com/br-11134207-7r98o-lqc0bcui9tdvb3.jpg" },
+            { id: "43530663026", name: "Kit Bandeira do Brasil para Capô de Carro + Capa para Retrovisor com Elástico Tamanho Universal", price: "19,90", store: "UniShop.com.br", link: "https://s.shopee.com.br/AUromP6nzY", image: "https://down-bs-br.img.susercontent.com/sg-11134201-820my-mnxceirsre2q08.jpg" },
+            { id: "25331199273", name: "Calçados De Inverno Chinelos Sapatos", price: "17,36", store: "vinxtop.br", link: "https://s.shopee.com.br/AKYOa67RKX", image: "https://down-bs-br.img.susercontent.com/sg-11134201-7rd51-lvo99pwnh68b8f.jpg" },
+            { id: "22494928254", name: "Blusa de frio do brasil moletom canguru torcedor brasileiro masculino e feminino unissex blusa com capuz e bolso", price: "68,99", store: "JT SHOPP", link: "https://s.shopee.com.br/AAEyNn84fW", image: "https://down-bs-br.img.susercontent.com/sg-11134201-8261y-mlfabfms7vnlc5.jpg" },
+            { id: "58207657402", name: "Caixa Caixinha De Som Bluetooth Potente Pendrive Fm Sd Portátil Ipx6", price: "59,00", store: "321 OFERTAS", link: "https://s.shopee.com.br/9zvYBU8i0V", image: "https://down-aka-br.img.susercontent.com/br-11134207-820m9-mm9qmldg6rcw4b.jpg" },
+            { id: "53100228360", name: "Tomada Elétrica Vertical Extensão 12 Tomadas Torre Mesa 12 Saida E 2 Usb 2500w Com botão Liga/Desliga", price: "41,90", store: "MISTER PROMOÇÃO", link: "https://s.shopee.com.br/5q5zDpOZSi", image: "https://down-aka-br.img.susercontent.com/sg-11134201-825ak-mgbu0e0y83ykad.jpg" },
+            { id: "23794518380", name: "Chinelo feminino confortável de dedo com correias detalhe nó de brilho strass bico quadrado", price: "39,99", store: "Dona Cota GLOW", link: "https://s.shopee.com.br/5fmZ1WPCnh", image: "https://down-aka-br.img.susercontent.com/br-11134207-820lz-mnw76wmpj8qsa4.webp" },
+            { id: "21298266282", name: "Carregador de Bateria 12V Inteligente Mazzilli – LCD, 15AH a 100AH, Carrega Carro e Moto", price: "59,80", store: "Alan Store4", link: "https://s.shopee.com.br/5VT8pDPq8g", image: "https://down-aka-br.img.susercontent.com/br-11134207-7r98o-mctvm056sunm64.jpg" },
+            { id: "23899401692", name: "Massageador elétrico portátil pescoço calmante intensidade de 3 velocidades + aquecimento infravermelho", price: "119,99", store: "Mercado Estelar", link: "https://s.shopee.com.br/5L9icuQTTf", image: "https://down-aka-br.img.susercontent.com/sg-11134201-825zz-mlc440901s057d.jpg" },
+            { id: "25942546248", name: "Pijamas Feminino Grosso Lã Manga Longa Topo Casa Cintura Elástica (2 Peças)", price: "87,98", store: "SHLNLI02.br", link: "https://s.shopee.com.br/6VLg13M26u", image: "https://down-aka-br.img.susercontent.com/sg-11134201-7reot-m26dwsev14ag6c.jpg" },
+            { id: "21599838915", name: "KIT 3 Escova Secadora + Secador de Cabelo Portátil + Modelador de Cachos + Chapinha Profissional Rosa", price: "96,90", store: "VINIMARKET COMPRA SEGURA", link: "https://s.shopee.com.br/6L2FokMfRt", image: "https://down-aka-br.img.susercontent.com/br-11134207-81z1k-miefwom0en0jab.jpg" },
+            { id: "23998885828", name: "Kit Calça de Moletom Algodão unissex com Elástico e Punho Estilo e Conforto", price: "59,90", store: "Fox Wear", link: "https://s.shopee.com.br/6AipcRNIms", image: "https://down-aka-br.img.susercontent.com/br-11134207-81ztc-mivm55zz00zm3b.jpg" },
+            { id: "22293277742", name: "Coberta Manta Microfibra Para Casal Cores - Cobertas Quentinhas Ótimo Estampas Autênticas", price: "19,90", store: "Coberdrom Enxovais", link: "https://s.shopee.com.br/60PPQ8Nw7r", image: "https://down-aka-br.img.susercontent.com/sg-11134201-7rdy3-lzz5ld545xeq24.jpg" },
+            { id: "23993963909", name: "Conjunto De Macacão Temático De Bichinhos Em Plush 3d Com Pantufa Lúdica", price: "69,99", store: "Doce Algodão - Moda Infantil", link: "https://s.shopee.com.br/7AbMoHJUl6", image: "https://down-aka-br.img.susercontent.com/br-11134207-7r98o-mbdy3qan133t24.jpg" },
+            { id: "21598100316", name: "Shor bermuda forrado Mauricinho azul marinho", price: "99,00", store: "MAURICIO VARIEDADES", link: "https://s.shopee.com.br/AUrpT2TL7Y", image: "https://down-bs-br.img.susercontent.com/br-11134207-7r98o-m85dt3btmwb508.jpg" },
+            { id: "23498798611", name: "Kit 2 Viseira Sol Praia Verão Esporte Vôlei Feminina", price: "42,99", store: "Y & Y STORE", link: "https://s.shopee.com.br/AKYPGjTySX", image: "https://down-bs-br.img.susercontent.com/br-11134207-81z1k-mgcekpriku85b9.jpg" },
+            { id: "23699153696", name: "Biquini Marquinha Bronze Cortininha com bojo moda praia", price: "69,99", store: "Clarê.co", link: "https://s.shopee.com.br/AAEz4QUbnW", image: "https://down-bs-br.img.susercontent.com/sg-11134201-821fo-mgoapk0zq0i6a7.jpg" },
+            { id: "19098284833", name: "Bolsa de Praia Grande Transparente Impermeável Sacola de Ombro Feminina Piscina Passeio Moda Clássica Verão Neon", price: "14,90", store: "Sereia de Sol", link: "https://s.shopee.com.br/9031gHZ3AP", image: "https://down-bs-br.img.susercontent.com/br-11134207-7r98o-mddp1cwdljqq46.jpg" },
+            { id: "23593481574", name: "Camiseta Masculina Personal Trainer Professor Academia Treino Dry Fit Manga Curta", price: "44,90", store: "Blackchic", link: "https://s.shopee.com.br/8pjbTyZgVO", image: "https://down-bs-br.img.susercontent.com/br-11134207-7r98o-m1kgz9c2awfe28.jpg" },
+            { id: "22694322011", name: "WD VEST Maiô Estruturado com Bojo e Detalhe Central – Sofisticação e Estilo para Brilhar à Beira-Mar XX343", price: "200,00", store: "WD_VESTUARIOS", link: "https://s.shopee.com.br/8fQBHfaJqN", image: "https://down-bs-br.img.susercontent.com/br-11134207-7r98o-mdkl6oadspg111.jpg" }
+        ];
+
+        const grid = document.getElementById('products-grid');
+
+        // Renderização dos cards de produto
+        products.forEach(p => {
+            const wpText = encodeURIComponent(`Olha esse achadinho na Shopee: ${p.name} por apenas R$ ${p.price}! Veja aqui: ${p.link}`);
+            const wpLink = `https://api.whatsapp.com/send?text=${wpText}`;
+
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="image-container">
+                    <img src="${p.image}" alt="${p.name}" onerror="this.onerror=null;this.src='https://placehold.co/300x300?text=Ver+na+Shopee';">
+                </div>
+                <div class="content">
+                    <div>
+                        <div class="store">Loja: ${p.store}</div>
+                        <div class="title" title="${p.name}">${p.name}</div>
+                    </div>
+                    <div>
+                        <div class="price-row">
+                            <span class="price-label">Por:</span>
+                            <span class="price">R$ ${p.price}</span>
+                        </div>
+                        <a href="${p.link}" target="_blank" class="btn-buy">PEGAR OFERTA 🛒</a>
+                        <a href="${wpLink}" target="_blank" class="btn-share">Compartilhar no Zap</a>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        // Lógica do Banner Carousel
+        let slideAtual = 0;
+        const trilho = document.getElementById("trilho");
+        const totalSlides = document.querySelectorAll(".shopee-banner-slide").length;
+
+        function atualizarBanner() {
+            trilho.style.transform = `translateX(-${slideAtual * 100}%)`;
+        }
+
+        function mudarSlide(direcao) {
+            slideAtual += direcao;
+            if (slideAtual < 0) {
+                slideAtual = totalSlides - 1;
+            }
+            if (slideAtual >= totalSlides) {
+                slideAtual = 0;
+            }
+            atualizarBanner();
+        }
+
+        // Troca automática do banner
+        setInterval(() => {
+            mudarSlide(1);
+        }, 5000);
+    </script>
+        
+    <footer>
+        © 2026 • Mix de ofertas 
+    </footer>
+</body>
+</html>

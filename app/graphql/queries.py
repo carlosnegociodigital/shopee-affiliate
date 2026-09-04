@@ -5,9 +5,9 @@ def product_query(keyword: str, page: int = 1, limit: int = 30):
       productOfferV2(
         keyword: "{keyword}",
         listType: 1,
-        sortType: 5,
+        sortType: 3,
         page: {page},
-        limit: {limit}
+        limit: {100}
       ) {{
 
         nodes {{
