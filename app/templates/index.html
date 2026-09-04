@@ -4,57 +4,351 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>🌊 Achadinhos Oceano | As Melhores Ofertas da Shopee</title>
 
-    <meta name="description"
-        content="Encontre os melhores achadinhos da Shopee em um só lugar. Produtos atualizados automaticamente.">
+    <meta
+        name="description"
+        content="Encontre os melhores achadinhos da Shopee em um só lugar. Produtos atualizados automaticamente."
+    >
 
-    <meta name="keywords"
-        content="Shopee, ofertas, promoções, descontos, afiliado Shopee, achadinhos">
+    <meta
+        name="keywords"
+        content="Shopee, ofertas, promoções, descontos, afiliado Shopee, achadinhos"
+    >
 
-    <meta name="author" content="Achadinhos Oceano">
+    <meta
+        name="author"
+        content="Achadinhos Oceano"
+    >
 
-    <meta name="robots" content="index, follow">
+    <meta
+        name="robots"
+        content="index, follow"
+    >
 
-    <meta name="theme-color" content="#0066cc">
+    <meta
+        name="theme-color"
+        content="#0066cc"
+    >
 
-    <link rel="canonical" href="https://achadinhosoceano.com.br/">
+    <link
+        rel="canonical"
+        href="https://achadinhosoceano.com.br/"
+    >
 
     <!-- Open Graph -->
 
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="🌊 Achadinhos Oceano">
-    <meta property="og:description"
-        content="Um oceano de ofertas esperando por você.">
-    <meta property="og:image"
-        content="https://achadinhosoceano.com.br/static/images/og-image.jpg">
+    <meta
+        property="og:type"
+        content="website"
+    >
+
+    <meta
+        property="og:title"
+        content="🌊 Achadinhos Oceano"
+    >
+
+    <meta
+        property="og:description"
+        content="Um oceano de ofertas esperando por você."
+    >
+
+    <meta
+        property="og:image"
+        content="https://achadinhosoceano.com.br/static/images/og-image.jpg"
+    >
 
     <!-- Favicons -->
 
-    <link rel="manifest" href="/static/manifest.webmanifest">
+    <link
+        rel="manifest"
+        href="/static/manifest.webmanifest"
+    >
 
-    <link rel="icon"
-        href="/static/images/favicon.ico">
+    <link
+        rel="icon"
+        href="/static/images/favicon.ico"
+    >
 
-    <link rel="apple-touch-icon"
-        href="/static/images/apple-touch-icon.png">
+    <link
+        rel="apple-touch-icon"
+        href="/static/images/apple-touch-icon.png"
+    >
 
-    <!-- CSS -->
+    <!-- CSS principal -->
 
-    <link rel="stylesheet"
-        href="/static/css/style.css">
+    <link
+        rel="stylesheet"
+        href="/static/css/style.css"
+    >
+
+    <!--
+        AJUSTES RESPONSIVOS
+        Mantemos aqui para garantir que o
+        layout mobile funcione mesmo sem
+        alterar o style.css neste momento.
+    -->
+
+    <style>
+
+        /* =========================================
+           GRADE DE PRODUTOS
+        ========================================= */
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(220px, 1fr)
+            );
+            gap: 24px;
+            width: 100%;
+        }
+
+
+        /* =========================================
+           BOTÃO HOME FLUTUANTE
+        ========================================= */
+
+        .home-floating {
+
+            position: fixed;
+
+            right: 20px;
+            bottom: 20px;
+
+            width: 56px;
+            height: 56px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #0066cc;
+
+            color: #ffffff;
+
+            text-decoration: none;
+
+            border-radius: 50%;
+
+            font-size: 25px;
+
+            box-shadow:
+                0 4px 12px rgba(0, 0, 0, 0.25);
+
+            z-index: 9999;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        .home-floating:hover {
+
+            transform: scale(1.08);
+
+            box-shadow:
+                0 6px 16px rgba(0, 0, 0, 0.30);
+        }
+
+
+        .home-floating:active {
+
+            transform: scale(0.95);
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 600px) {
+
+            .products {
+
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+
+                gap: 10px;
+
+            }
+
+
+            .card {
+
+                width: 100%;
+
+                min-width: 0;
+
+                margin: 0;
+
+            }
+
+
+            .card img {
+
+                width: 100%;
+
+                height: auto;
+
+                aspect-ratio: 1 / 1;
+
+                object-fit: contain;
+
+                display: block;
+
+            }
+
+
+            .card-content {
+
+                padding: 10px;
+
+            }
+
+
+            .card .nome {
+
+                font-size: 14px;
+
+                line-height: 1.3;
+
+                display: -webkit-box;
+
+                -webkit-line-clamp: 3;
+
+                -webkit-box-orient: vertical;
+
+                overflow: hidden;
+
+            }
+
+
+            .details {
+
+                font-size: 12px;
+
+                gap: 5px;
+
+            }
+
+
+            .preco {
+
+                font-size: 16px;
+
+            }
+
+
+            .btn {
+
+                font-size: 12px;
+
+                padding: 9px 6px;
+
+                display: block;
+
+                text-align: center;
+
+            }
+
+
+            .badge {
+
+                font-size: 11px;
+
+                padding: 5px 7px;
+
+            }
+
+
+            .home-floating {
+
+                width: 50px;
+
+                height: 50px;
+
+                right: 15px;
+
+                bottom: 15px;
+
+                font-size: 22px;
+
+            }
+
+        }
+
+
+        /* =========================================
+           CELULARES MUITO PEQUENOS
+        ========================================= */
+
+        @media (max-width: 360px) {
+
+            .products {
+
+                gap: 8px;
+
+            }
+
+
+            .card-content {
+
+                padding: 8px;
+
+            }
+
+
+            .card .nome {
+
+                font-size: 13px;
+
+            }
+
+
+            .preco {
+
+                font-size: 15px;
+
+            }
+
+
+            .btn {
+
+                font-size: 11px;
+
+            }
+
+        }
+
+    </style>
 
 </head>
 
-<body>
+
+<body id="topo">
+
 
 <header>
 
-    <a href="/" class="logo">
+    <!-- LOGO -->
 
-        <h1>🌊 Achadinhos Oceano</h1>
+    <a
+        href="/"
+        class="logo"
+    >
+
+        <h1>
+            🌊 Achadinhos Oceano
+        </h1>
 
         <span>
             Um oceano de ofertas esperando por você
@@ -62,52 +356,82 @@
 
     </a>
 
-    <form class="search-box" method="GET" action="/">
+
+    <!-- BUSCA -->
+
+    <form
+        class="search-box"
+        method="GET"
+        action="/"
+    >
 
         <input
             type="text"
             name="busca"
             placeholder="🔍 Pesquise qualquer produto..."
-            value="{{ busca }}">
+            value="{{ busca }}"
+        >
 
-        <button type="submit">
+        <button
+            type="submit"
+        >
             Pesquisar
         </button>
 
+
         {% if busca %}
 
-        <a href="/" class="limpar">
+        <a
+            href="/"
+            class="limpar"
+        >
             Limpar
         </a>
 
         {% endif %}
 
     </form>
-<div class="category-menu">
 
-    <button id="toggleCategorias" class="category-button">
 
-        ☰ Categorias ▼
+    <!-- CATEGORIAS -->
 
-    </button>
+    <div class="category-menu">
 
-    <nav id="listaCategorias" class="categories">
+        <button
+            id="toggleCategorias"
+            class="category-button"
+            type="button"
+        >
+            ☰ Categorias ▼
+        </button>
 
-{% for valor, nome in categorias %}
 
-    <a
-        href="/?categoria={{ valor }}"
-        class="{% if categoria == valor %}active{% endif %}"
-    >
-        {{ nome }}
-    </a>
+        <nav
+            id="listaCategorias"
+            class="categories"
+        >
 
-{% endfor %}
+            {% for valor, nome in categorias %}
 
-</nav>
+            <a
+                href="/?categoria={{ valor }}"
+                class="{% if categoria == valor %}active{% endif %}"
+            >
 
-</div>
+                {{ nome }}
+
+            </a>
+
+            {% endfor %}
+
+        </nav>
+
+    </div>
+
 </header>
+
+
+<!-- HERO -->
 
 <section class="hero">
 
@@ -121,186 +445,293 @@
             Produtos atualizados automaticamente.
         </p>
 
-        <a href="#produtos"
-            class="hero-btn">
-
+        <a
+            href="/ofertas"
+            class="hero-btn"
+        >
             Ver Ofertas
-
         </a>
 
     </div>
 
 </section>
+
+
+<!-- PRODUTOS -->
 
 <main class="container">
 
-{% if busca %}
+    {% if busca %}
 
-<h2>
+    <h2>
 
-Resultado da busca por
+        Resultado da busca por
 
-<strong>
+        <strong>
+            "{{ busca }}"
+        </strong>
 
-"{{ busca }}"
+    </h2>
 
-</strong>
+    {% else %}
 
-</h2>
+    <h2>
+        Produtos em destaque
+    </h2>
 
-{% else %}
+    {% endif %}
 
-<h2>
 
-Produtos em destaque
-
-</h2>
-
-{% endif %}
-
-<section
-class="products"
-id="produtos">
-{% for produto in produtos %}
-
-<article class="card">
-
-    <div class="badge">
-        🔥 Oferta
-    </div>
-
-    <img
-        src="{{ produto.image_url }}"
-        alt="{{ produto.product_name }}"
-        loading="lazy"
+    <section
+        class="products"
+        id="produtos"
     >
 
-    <div class="card-content">
+        {% for produto in produtos %}
 
-        <h3 class="nome">
-            {{ produto.product_name }}
-        </h3>
+        <article class="card">
 
-        <div class="details">
+            <!-- OFERTA -->
 
-            <span>
-                ⭐ {{ produto.rating }}
-            </span>
+            <div class="badge">
+                🔥 Oferta
+            </div>
 
-            <span>
-                📦 {{ produto.sales }}
-            </span>
 
-        </div>
+            <!-- IMAGEM -->
 
-        <div class="preco">
-            R$ {{ produto.price }}
-        </div>
+            <img
+                src="{{ produto.image_url }}"
+                alt="{{ produto.product_name }}"
+                loading="lazy"
+            >
+
+
+            <div class="card-content">
+
+                <!-- NOME -->
+
+                <h3 class="nome">
+                    {{ produto.product_name }}
+                </h3>
+
+
+                <!-- DETALHES -->
+
+                <div class="details">
+
+                    <span>
+                        ⭐ {{ produto.rating }}
+                    </span>
+
+                    <span>
+                        📦 {{ produto.sales }}
+                    </span>
+
+                </div>
+
+
+                <!-- PREÇO -->
+
+                <div class="preco">
+
+                    R$ {{ produto.price }}
+
+                </div>
+
+
+                <!-- COMPRAR -->
+
+                <a
+                    href="{{ produto.offer_link }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn"
+                >
+
+                    🛒 Ver na shopee
+
+                </a>
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </section>
+
+
+    <!-- PAGINAÇÃO -->
+
+    {% if total_pages > 1 %}
+
+    <div class="pagination">
+
+
+        {% if page > 1 %}
 
         <a
-            href="{{ produto.offer_link }}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn"
+            href="/?busca={{ busca }}&categoria={{ categoria }}&page={{ page - 1 }}"
         >
-            🛒 Comprar Agora
+
+            ◀ Anterior
+
         </a>
 
-    </div>
-
-</article>
-
-{% endfor %}
-
-</section>
-
-{% if total_pages > 1 %}
-
-<div class="pagination">
-
-    {% if page > 1 %}
-
-    <a href="/?busca={{ busca }}&categoria={{ categoria }}&page={{ page - 1 }}">
-        ◀ Anterior
-    </a>
-
-    {% endif %}
-
-    {% if pages[0] > 1 %}
-
-        <a href="/?busca={{ busca }}&categoria={{ categoria }}&page=1">
-            1
-        </a>
-
-        {% if pages[0] > 2 %}
-            <span>...</span>
         {% endif %}
 
-    {% endif %}
 
-    {% for p in pages %}
+        {% if pages[0] > 1 %}
+
+        <a
+            href="/?busca={{ busca }}&categoria={{ categoria }}&page=1"
+        >
+
+            1
+
+        </a>
+
+
+        {% if pages[0] > 2 %}
+
+        <span>
+            ...
+        </span>
+
+        {% endif %}
+
+        {% endif %}
+
+
+        {% for p in pages %}
+
 
         {% if p == page %}
 
-            <span class="active">
-                {{ p }}
-            </span>
+        <span class="active">
+            {{ p }}
+        </span>
+
 
         {% else %}
 
-            <a href="/?busca={{ busca }}&categoria={{ categoria }}&page={{ p }}">
-                {{ p }}
-            </a>
+        <a
+            href="/?busca={{ busca }}&categoria={{ categoria }}&page={{ p }}"
+        >
 
-        {% endif %}
+            {{ p }}
 
-    {% endfor %}
-
-    {% if pages[-1] < total_pages %}
-
-        {% if pages[-1] < total_pages - 1 %}
-            <span>...</span>
-        {% endif %}
-
-        <a href="/?busca={{ busca }}&categoria={{ categoria }}&page={{ total_pages }}">
-            {{ total_pages }}
         </a>
 
+        {% endif %}
+
+
+        {% endfor %}
+
+
+        {% if pages[-1] < total_pages %}
+
+
+        {% if pages[-1] < total_pages - 1 %}
+
+        <span>
+            ...
+        </span>
+
+        {% endif %}
+
+
+        <a
+            href="/?busca={{ busca }}&categoria={{ categoria }}&page={{ total_pages }}"
+        >
+
+            {{ total_pages }}
+
+        </a>
+
+
+        {% endif %}
+
+
+        {% if page < total_pages %}
+
+        <a
+            href="/?busca={{ busca }}&categoria={{ categoria }}&page={{ page + 1 }}"
+        >
+
+            Próxima ▶
+
+        </a>
+
+        {% endif %}
+
+
+    </div>
+
     {% endif %}
-
-    {% if page < total_pages %}
-
-    <a href="/?busca={{ busca }}&categoria={{ categoria }}&page={{ page + 1 }}">
-        Próxima ▶
-    </a>
-
-    {% endif %}
-
-</div>
-
-{% endif %}
 
 </main>
 
+
+<!-- =========================================
+     BOTÃO HOME FLUTUANTE
+========================================= -->
+
+<a
+    href="/"
+    class="home-floating"
+    title="Voltar para o início"
+    aria-label="Voltar para o início"
+>
+    🏠
+</a>
+
+
+<!-- JAVASCRIPT DA BUSCA -->
+
 <script src="/static/js/search.js"></script>
+
+
+<!-- MENU DE CATEGORIAS -->
+
 <script>
 
-const botao=document.getElementById("toggleCategorias");
-const menu=document.getElementById("listaCategorias");
+    const botao =
+        document.getElementById("toggleCategorias");
 
-botao.addEventListener("click",()=>{
+    const menu =
+        document.getElementById("listaCategorias");
 
-    menu.classList.toggle("show");
 
-    if(menu.classList.contains("show")){
-        botao.innerHTML="☰ Categorias ▲";
-    }else{
-        botao.innerHTML="☰ Categorias ▼";
+    if (botao && menu) {
+
+        botao.addEventListener("click", () => {
+
+            menu.classList.toggle("show");
+
+
+            if (
+                menu.classList.contains("show")
+            ) {
+
+                botao.innerHTML =
+                    "☰ Categorias ▲";
+
+            } else {
+
+                botao.innerHTML =
+                    "☰ Categorias ▼";
+
+            }
+
+        });
+
     }
 
-});
-
 </script>
+
+
 </body>
 
 </html>
