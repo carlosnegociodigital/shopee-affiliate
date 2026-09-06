@@ -18,13 +18,11 @@ class ProductService:
     # =====================================================
 
     def search_products(self, keyword):
-
         keyword = keyword.strip().lower()
 
         db = SessionLocal()
 
         try:
-
             produtos = (
                 db.query(Product)
                 .filter(
@@ -59,13 +57,13 @@ class ProductService:
                     if mais_recente >= limite:
 
                         print(
-                            "âœ… Dados recentes encontrados no banco."
+                            "✅ Dados recentes encontrados no banco."
                         )
 
                         return produtos
 
                 print(
-                    "â™» Cache expirado. Atualizando Shopee..."
+                    "♻ Cache expirado. Atualizando Shopee..."
                 )
 
         finally:
@@ -76,7 +74,6 @@ class ProductService:
         db = SessionLocal()
 
         try:
-
             return (
                 db.query(Product)
                 .filter(
@@ -91,7 +88,7 @@ class ProductService:
             db.close()
 
     # =====================================================
-    # ATUALIZAÃ‡ÃƒO GERAL
+    # ATUALIZAÇÃO GERAL
     # =====================================================
 
     def update_products(self):
@@ -120,7 +117,7 @@ class ProductService:
         for keyword in keywords:
 
             print(
-                f"\nðŸ”Ž Atualizando {keyword}"
+                f"\n🔎 Atualizando {keyword}"
             )
 
             self.fetch_from_api(keyword)
@@ -141,6 +138,11 @@ class ProductService:
                 limit=30
             )
 
+            if response.get("errors"):
+
+                print("❌ ERRO DA SHOPEE:")
+                print(response["errors"])
+
             products = (
                 response
                 .get("data", {})
@@ -159,7 +161,7 @@ class ProductService:
             total += len(products)
 
         print(
-            f"ðŸ“¦ {total} produtos processados."
+            f"📦 {total} produtos processados."
         )
 
     # =====================================================
@@ -303,13 +305,12 @@ class ProductService:
                     )
 
                     db.add(produto)
-
                     novos += 1
 
             db.commit()
 
             print(
-                f"ðŸ’¾ {novos} novos | "
+                f"💾 {novos} novos | "
                 f"{atualizados} atualizados."
             )
 
@@ -328,9 +329,9 @@ class ProductService:
     ):
 
         print(
-            f"ðŸ”¥ Buscando ofertas Shopee"
+            f"🔥 Buscando ofertas Shopee"
             f" | palavra='{keyword}'"
-            f" | pÃ¡gina={page}"
+            f" | página={page}"
         )
 
         response = self.client.get_offers(
@@ -353,13 +354,13 @@ class ProductService:
         if erros:
 
             print(
-                "âŒ Erro retornado pela Shopee:"
+                "❌ Erro retornado pela Shopee:"
             )
 
             print(erros)
 
         print(
-            f"ðŸ”¥ {len(ofertas)} ofertas encontradas."
+            f"🔥 {len(ofertas)} ofertas encontradas."
         )
 
         return ofertas
