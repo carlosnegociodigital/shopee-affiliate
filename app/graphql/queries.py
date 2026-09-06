@@ -7,7 +7,7 @@ def product_query(keyword: str, page: int = 1, limit: int = 30):
         listType: 1,
         sortType: 3,
         page: {page},
-        limit: {100}
+        limit: {limit}
       ) {{
 
         nodes {{
